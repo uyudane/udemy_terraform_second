@@ -3,7 +3,7 @@ resource "random_string" "s3_unique_key" {
   length  = 6
   upper   = false
   lower   = true
-  number  = true
+  numeric  = true
   special = false
 }
 
@@ -13,8 +13,12 @@ resource "random_string" "s3_unique_key" {
 resource "aws_s3_bucket" "s3_static_bucket" {
   bucket = "${var.project}-${var.environment}-static-bucket-${random_string.s3_unique_key.result}"
 
-  versioning {
-    enabled = false
+}
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.s3_static_bucket.id
+  versioning_configuration {
+    status = "Disabled"
   }
 }
 
@@ -55,9 +59,12 @@ data "aws_iam_policy_document" "s3_static_bucket" {
 # ---------------------------------------------
 resource "aws_s3_bucket" "s3_deploy_bucket" {
   bucket = "${var.project}-${var.environment}-deploy-bucket-${random_string.s3_unique_key.result}"
+}
 
-  versioning {
-    enabled = false
+resource "aws_s3_bucket_versioning" "s3_deploy_bucket" {
+  bucket = aws_s3_bucket.s3_deploy_bucket.id
+  versioning_configuration {
+    status = "Disabled"
   }
 }
 
