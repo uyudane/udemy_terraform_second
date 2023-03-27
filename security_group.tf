@@ -55,8 +55,8 @@ resource "aws_security_group" "app_sg" {
   }
 }
 
-resource "aws_security_group_rule" "app_in_ssh" {
-  security_group_id        = aws_security_group.web_sg.id
+resource "aws_security_group_rule" "app_in_tcp3000" {
+  security_group_id        = aws_security_group.app_sg.id
   type                     = "ingress"
   protocol                 = "tcp"
   from_port                = 3000
@@ -65,7 +65,7 @@ resource "aws_security_group_rule" "app_in_ssh" {
 }
 
 resource "aws_security_group_rule" "app_out_http" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.app_sg.id
   type              = "egress"
   protocol          = "tcp"
   from_port         = 80
@@ -74,7 +74,7 @@ resource "aws_security_group_rule" "app_out_http" {
 }
 
 resource "aws_security_group_rule" "app_out_https" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.app_sg.id
   type              = "egress"
   protocol          = "tcp"
   from_port         = 443
@@ -83,7 +83,7 @@ resource "aws_security_group_rule" "app_out_https" {
 }
 
 resource "aws_security_group_rule" "app_out_tcp3306" {
-  security_group_id        = aws_security_group.web_sg.id
+  security_group_id        = aws_security_group.app_sg.id
   type                     = "egress"
   protocol                 = "tcp"
   from_port                = 3306
@@ -105,7 +105,7 @@ resource "aws_security_group" "opmng_sg" {
 }
 
 resource "aws_security_group_rule" "opmng_in_ssh" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 22
@@ -114,7 +114,7 @@ resource "aws_security_group_rule" "opmng_in_ssh" {
 }
 
 resource "aws_security_group_rule" "opmng_in_tcp3000" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
   from_port         = 3000
@@ -123,7 +123,7 @@ resource "aws_security_group_rule" "opmng_in_tcp3000" {
 }
 
 resource "aws_security_group_rule" "opmng_out_http" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
   from_port         = 80
@@ -132,7 +132,7 @@ resource "aws_security_group_rule" "opmng_out_http" {
 }
 
 resource "aws_security_group_rule" "opmng_out_https" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
   from_port         = 443
@@ -153,7 +153,7 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-resource "aws_security_group_rule" "opmng_in_tcp3306" {
+resource "aws_security_group_rule" "db_in_tcp3306" {
   security_group_id        = aws_security_group.db_sg.id
   type                     = "ingress"
   protocol                 = "tcp"

@@ -9,14 +9,26 @@ terraform {
       version = "~>3.0"
     }
   }
+  backend "s3" {
+    bucket  = "tastylog-tfstate-bucket-yudai"
+    key     = "tastylog-dev.tfstate"
+    region  = "ap-northeast-1"
+    profile = "yudai"
+  }
 }
 
 # ------------------------------
 # Provider
 # ------------------------------
 provider "aws" {
-  profile = "terraform"
+  profile = "yudai"
   region  = "ap-northeast-1"
+}
+
+provider "aws" {
+  alias   = "virginia"
+  profile = "yudai"
+  region  = "us-east-1"
 }
 
 # ------------------------------
@@ -27,5 +39,9 @@ variable "project" {
 }
 
 variable "environment" {
+  type = string
+}
+
+variable "domain" {
   type = string
 }
